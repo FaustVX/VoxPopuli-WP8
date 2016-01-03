@@ -70,13 +70,13 @@ namespace VoxPopuli
 			}
 		}
 
-		public Player(string id, string name, int winnedGames, string avatarURL, int getNamedNumber)
+		public Player(string id, string name, int winnedGames, string avatarURL, int nbLive)
 		{
 			ID = id;
 			Name = name;
 			WinnedGames = winnedGames;
 			AvatarURL = avatarURL;
-			Life = 0;
+			Life = nbLive;
 		}
 
 		[NotifyPropertyChangedInvocator]

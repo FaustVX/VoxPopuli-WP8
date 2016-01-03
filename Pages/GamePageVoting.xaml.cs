@@ -65,6 +65,7 @@ namespace VoxPopuli.Pages
 					Game.AlivePlayers = (int) roomData.GetNamedNumber("nbAlivePlayers");
 					Game.Timer = ((int) roomData.GetNamedNumber("subTimer")) / 1000;
 					Game.Player.SelectedAnswer = null;
+					BlueRadioButton.IsChecked = RedRadioButton.IsChecked = GreenRadioButton.IsChecked = false;
 					break;
 				}
 				case GameAction.UpdateTimer:

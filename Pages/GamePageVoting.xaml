@@ -91,7 +91,7 @@
 		
 		<TextBlock Grid.Row="1" TextWrapping="Wrap" FontSize="25" Text="{Binding Game.CurrentQuestion.QuestionString}"/>
 		<StackPanel Orientation="Vertical" Grid.Row="2">
-			<RadioButton Background="CornflowerBlue" Checked="VoteButton_OnChecked" Tag="0" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=A, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
+			<RadioButton x:Name="BlueRadioButton" Background="CornflowerBlue" Checked="VoteButton_OnChecked" Tag="0" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=A, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
@@ -103,7 +103,7 @@
 					<TextBlock Grid.Column="1" Text="{Binding Game.CurrentQuestion.ResponseA.Vote}" TextWrapping="Wrap" Margin="10,0,4,0" VerticalAlignment="Center" Visibility="{Binding Game.CurrentQuestion.ShowVote, Converter={StaticResource BoolToVisibility}}"/>
 				</Grid>
 			</RadioButton>
-			<RadioButton Background="PaleVioletRed" Checked="VoteButton_OnChecked" Tag="1" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=B, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
+			<RadioButton x:Name="RedRadioButton" Background="PaleVioletRed" Checked="VoteButton_OnChecked" Tag="1" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=B, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
@@ -115,7 +115,7 @@
 					<TextBlock Grid.Column="1" Text="{Binding Game.CurrentQuestion.ResponseB.Vote}" TextWrapping="Wrap" Margin="10,0,4,0" VerticalAlignment="Center" Visibility="{Binding Game.CurrentQuestion.ShowVote, Converter={StaticResource BoolToVisibility}}"/>
 				</Grid>
 			</RadioButton>
-			<RadioButton Background="DarkSeaGreen" Checked="VoteButton_OnChecked" Tag="2" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=C, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
+			<RadioButton x:Name="GreenRadioButton" Background="DarkSeaGreen" Checked="VoteButton_OnChecked" Tag="2" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=C, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
