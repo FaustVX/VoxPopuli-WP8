@@ -20,7 +20,8 @@
 	<Page.BottomAppBar>
 		<CommandBar ClosedDisplayMode="Minimal" IsOpen="False">
 			<CommandBar.PrimaryCommands>
-				<AppBarButton Label="Login" IsEnabled="{Binding ShowOptionPage, Converter={StaticResource InvertedBoolConverter}}" x:Name="Login" Icon="AddFriend" Click="Login_OnClick"/>
+				<AppBarButton Label="Login" Visibility="{Binding Options.IsConnected, Converter={StaticResource BoolToVisibilityInversed}}" Icon="AddFriend" Click="Login_OnClick"/>
+				<AppBarButton Label="Logout" Visibility="{Binding Options.IsConnected, Converter={StaticResource BoolToVisibility}}" Icon="ContactPresence" Click="Logout_OnClick"/>
 			</CommandBar.PrimaryCommands>
 			<CommandBar.SecondaryCommands>
 				<AppBarButton Visibility="{Binding ShowLog, Converter={StaticResource BoolToVisibility}, Mode=OneTime}" Click="Logs_OnClick" Label="Logs"/>

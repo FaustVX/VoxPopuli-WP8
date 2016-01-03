@@ -86,6 +86,8 @@ namespace VoxPopuli.Pages
 
 	    public bool ShowLog { get; } = false;
 
+	    public Options Options { get; } = Options.Default;
+
 	    /// <summary>
 	    /// Invoked when this page is about to be displayed in a Frame.
 	    /// </summary>
@@ -119,21 +121,13 @@ namespace VoxPopuli.Pages
 
 	    private void Login_OnClick(object sender, RoutedEventArgs e)
 	    {
-			var creditentialPage = new CreditentialPage();
-		    creditentialPage.Validated += delegate
-		    {
-			    Options.Default.UserId = creditentialPage.UserId;
-			    Options.Default.UserSession = creditentialPage.UserSession;
-				
-			    Options.Default.RegenerateGameSocket(null);
-			    OptionPage = null;
-		    };
-		    OptionPage = creditentialPage;
-
+			OptionPage = new LoginPage();
 	    }
 
 	    private void Logout_OnClick(object sender, RoutedEventArgs e)
-	    { }
+	    {
+		    Options.Default.IsConnected = false;
+	    }
 
 	    private void Logs_OnClick(object sender, RoutedEventArgs e)
 	    {

@@ -41,6 +41,24 @@ namespace VoxPopuli
 			}
 		}
 
+		private bool _isConnected;
+		public bool IsConnected
+		{
+			get { return _isConnected; }
+			set
+			{
+				_isConnected = value;
+				if (!IsConnected)
+				{
+					UserId = null;
+					UserSession = null;
+					RoomID = null;
+				}
+				OnPropertyChanged();
+				Save(nameof(IsConnected), IsConnected.ToString());
+			}
+		}
+
 		private string _roomID;
 		public string RoomID
 		{
@@ -57,7 +75,7 @@ namespace VoxPopuli
 		}
 
 		private string Header
-			=> $"user_id={UserId}&user_session={UserSession}&page=";
+			=> (IsConnected ? $"user_id={UserId}&user_session={UserSession}&" : "") + "page=";
 		public string HomeHeader
 			=> Header + "index";
 		public string GameHeader
@@ -83,6 +101,7 @@ namespace VoxPopuli
 		public static string HostName { get; } = "https://vox-populi.richie.fr/";
 		public static string SocketURL { get; } = HostName + "lldpgn";
 		public static string LoginURL { get; } = HostName + "login";
+		public static string GetUserJsonURL { get; } = HostName + "getuserjson";
 
 		public static ObservableCollection<string> Logs { get; } = new ObservableCollection<string>();
 
@@ -103,9 +122,13 @@ namespace VoxPopuli
 		{
 			//UserId = "4626812663";
 			//UserSession = "50bcf2e6a1dfc3b4ae0e9e392a7e62a4";
-
-			UserId = Load(nameof(UserId)) ?? "";
-			UserSession = Load(nameof(UserSession)) ?? "";
+			bool connected;
+			if (bool.TryParse(Load(nameof(IsConnected)) ?? bool.FalseString, out connected) && connected)
+			{
+				UserId = Load(nameof(UserId)) ?? "";
+				UserSession = Load(nameof(UserSession)) ?? "";
+			}
+			IsConnected = connected;
 			
 			HomeSocket = IO.Socket(SocketURL, new IO.Options() {ForceNew = true, QueryString = "page=index"});
 		}

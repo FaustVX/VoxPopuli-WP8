@@ -130,7 +130,7 @@ namespace VoxPopuli.Pages
 			this.InitializeComponent();
 		}
 
-		public void OnGameEvent(JsonObject json)
+		public async void OnGameEvent(JsonObject json)
 		{
 			var jsonAction = json.GetNamedString("action");
 			switch (jsonAction)
@@ -178,7 +178,7 @@ namespace VoxPopuli.Pages
 						Options.Default.RoomID = null;
 						try
 						{
-							new MessageDialog("Vous êtes connecté depuis un autre navigateur", "Déconnexion").ShowAsync();
+							await new MessageDialog("Vous êtes connecté depuis un autre navigateur", "Déconnexion").ShowAsync();
 						}
 						catch
 						{ }
@@ -194,7 +194,7 @@ namespace VoxPopuli.Pages
 				case "deleteRoom":
 					try
 					{
-						new MessageDialog("La partie vient de se terminer", "Partie Terminée").ShowAsync();
+						await new MessageDialog("La partie vient de se terminer", "Partie Terminée").ShowAsync();
 					}
 					catch
 					{ }
@@ -205,7 +205,7 @@ namespace VoxPopuli.Pages
 					var winners = json.GetNamedArray("winners");
 					try
 					{
-						new MessageDialog($"Les gagnants sont: {string.Join(", ", winners.Select(name => name.GetString()))}", "Gagnants").ShowAsync();
+						await new MessageDialog($"Les gagnants sont: {string.Join(", ", winners.Select(name => name.GetString()))}", "Gagnants").ShowAsync();
 					}
 					catch
 					{ }

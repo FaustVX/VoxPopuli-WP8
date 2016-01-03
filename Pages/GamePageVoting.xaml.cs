@@ -36,6 +36,7 @@ namespace VoxPopuli.Pages
 					btn.IsChecked = false;
 				return;
 			}
+			Game.Player.SelectedAnswer = (Answer)id;
 
 			var jsonObject = new JsonObject();
 			jsonObject.SetNamedValue("action", JsonValue.CreateStringValue("vote"));
@@ -43,7 +44,7 @@ namespace VoxPopuli.Pages
 			Options.Default.GameSocket.Emit("clientEvent", JObject.Parse(jsonObject.Stringify()));
 		}
 
-		public void Action(GameAction action, JsonObject json)
+		public async void Action(GameAction action, JsonObject json)
 		{
 			switch (action)
 			{
@@ -73,8 +74,8 @@ namespace VoxPopuli.Pages
 					break;
 				case GameAction.GainLife:
 				case GameAction.LooseLife:
-					//if (action == GameAction.LooseLife)
-					//	new MessageDialog("Vous n'avez pas choisi la réponse majoritaire, vous perdez une vie.").ShowAsync();
+					if (action == GameAction.LooseLife)
+						await new MessageDialog("Vous n'avez pas choisi la réponse majoritaire, vous perdez une vie.").ShowAsync();
 					Game.Player.Life = (int)json.GetNamedNumber("newPoints");
 					break;
 				case GameAction.HasVoted:

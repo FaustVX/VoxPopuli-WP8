@@ -9,5 +9,5 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance local:LoginPage}">
 	
-	<WebView Source="{Binding URL}"/>
+	<WebView Source="{Binding URL}" DOMContentLoaded="WebView_OnDOMContentLoaded"/>
 </Page>

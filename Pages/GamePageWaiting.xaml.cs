@@ -34,7 +34,7 @@ namespace VoxPopuli.Pages
 		
 		public Game Game { get; set; }
 
-		public void Action(GameAction action, JsonObject json)
+		public async void Action(GameAction action, JsonObject json)
 		{
 			switch (action)
 			{
