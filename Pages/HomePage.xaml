@@ -96,7 +96,7 @@
 								<Run Text="/"/>
 								<Run Text="{Binding Players.Count}"/>
 							</TextBlock>
-							<Button Grid.Column="2" Content="{Binding ID}" IsEnabled="{Binding CanJoin}" Tag="{Binding}" Click="Connect_OnClick" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							<Button Grid.Column="2" Content="{Binding ID}" IsEnabled="False" Tag="{Binding}" Click="Connect_OnClick" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 						</Grid>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

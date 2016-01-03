@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Windows.Data.Json;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -63,6 +64,7 @@ namespace VoxPopuli.Pages
 					var roomData = json.GetNamedObject("roomData");
 					Game.AlivePlayers = (int) roomData.GetNamedNumber("nbAlivePlayers");
 					Game.Timer = ((int) roomData.GetNamedNumber("subTimer")) / 1000;
+					Game.Player.SelectedAnswer = null;
 					break;
 				}
 				case GameAction.UpdateTimer:
@@ -70,6 +72,8 @@ namespace VoxPopuli.Pages
 					break;
 				case GameAction.GainLife:
 				case GameAction.LooseLife:
+					//if (action == GameAction.LooseLife)
+					//	new MessageDialog("Vous n'avez pas choisi la réponse majoritaire, vous perdez une vie.").ShowAsync();
 					Game.Player.Life = (int)json.GetNamedNumber("newPoints");
 					break;
 				case GameAction.HasVoted:
