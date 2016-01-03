@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="VoxPopuli.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VoxPopuli"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="using:VoxPopuli.Pages"
+	xmlns:converters="using:VoxPopuli.Converters"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance pages:MainPage}">
+	<FrameworkElement.Resources>
+		<converters:BoolToVisibility x:Key="BoolToVisibilityInversed" True="Collapsed" False="Visible"/>
+		<converters:BoolToVisibility x:Key="BoolToVisibility" True="Visible" False="Collapsed"/>
+		<converters:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+		<converters:BoolToPageConverter x:Key="BoolToPageConverter" True="{Binding GamePage}" False="{Binding NoGamePage, Mode=OneTime}"/>
+	</FrameworkElement.Resources>
+	<Control.Background>
+		<ImageBrush ImageSource="https://static.vox-populi.richie.fr/mains.png" Opacity="0.3" Stretch="UniformToFill"/>
+	</Control.Background>
+	<Page.BottomAppBar>
+		<CommandBar ClosedDisplayMode="Minimal" IsOpen="False">
+			<CommandBar.PrimaryCommands>
+				<AppBarButton Label="Login" IsEnabled="{Binding ShowOptionPage, Converter={StaticResource InvertedBoolConverter}}" x:Name="Login" Icon="AddFriend" Click="Login_OnClick"/>
+			</CommandBar.PrimaryCommands>
+			<CommandBar.SecondaryCommands>
+				<AppBarButton Visibility="{Binding ShowLog, Converter={StaticResource BoolToVisibility}, Mode=OneTime}" Click="Logs_OnClick" Label="Logs"/>
+			</CommandBar.SecondaryCommands>
+		</CommandBar>
+	</Page.BottomAppBar>
+
+	<Grid Margin="0,20,0,0">
+		<Hub Grid.Row="0" Grid.Column="0" Visibility="{Binding ShowOptionPage, Converter={StaticResource BoolToVisibilityInversed}}">
+			<HubSection Header="Accueil">
+				<DataTemplate>
+					<pages:HomePage/>
+				</DataTemplate>
+			</HubSection>
+			<HubSection>
+				<HubSection.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding GamePage.Game.ID}"/>
+					</DataTemplate>
+				</HubSection.HeaderTemplate>
+				<DataTemplate>
+					<ContentPresenter Content="{Binding ShowGamePage, Converter={StaticResource BoolToPageConverter}}"/>
+				</DataTemplate>
+			</HubSection>
+		</Hub>
+		<ContentPresenter Grid.Row="0" Grid.Column="0" Content="{Binding OptionPage}" Visibility="{Binding ShowOptionPage, Converter={StaticResource BoolToVisibility}}"/>
+	</Grid>
+</Page>

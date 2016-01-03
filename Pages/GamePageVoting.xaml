@@ -1,0 +1,172 @@
+﻿<Page
+    x:Class="VoxPopuli.Pages.GamePageVoting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VoxPopuli"
+	xmlns:pages="using:VoxPopuli.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:VoxPopuli.Converters"
+    xmlns:templateSelectors="using:VoxPopuli.TemplateSelectors"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance pages:GamePageVoting}">
+	<FrameworkElement.Resources>
+		<converters:IsNullConverter x:Key="IsNullConverter"/>
+		<converters:BoolToVisibility x:Key="BoolToVisibility"/>
+		<converters:AnswerConverter x:Key="AnswerConverter" AllowNullValue="True"/>
+		<converters:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+		<converters:BoolToBrushConverter x:Key="BoolToBrushConverter" True="#FF494848" False="DarkGray"/>
+		<converters:AnswerToBrushConverter x:Key="AnswerToBrushConverter" Null="Black" A="CornflowerBlue" B="PaleVioletRed" C="DarkSeaGreen"/>
+		<Style TargetType="Border" x:Key="PlayerBorderStyle">
+			<Setter Property="BorderThickness" Value="2"/>
+			<Setter Property="CornerRadius" Value="2"/>
+			<Setter Property="Margin" Value="5, 2"/>
+			<Setter Property="BorderBrush" Value="DimGray"/>
+		</Style>
+		<DataTemplate x:Key="PlayerTemplate">
+			<Border Margin="2" d:DataContext="{d:DesignInstance local:Player}" BorderThickness="2" CornerRadius="2" BorderBrush="{Binding HasVoted, Converter={StaticResource BoolToBrushConverter}}">
+				<Grid Background="{Binding SelectedAnswer, Converter={StaticResource AnswerToBrushConverter}}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="20" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="10" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Source="{Binding AvatarURL}" Stretch="Uniform" />
+					<TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="{ThemeResource PhoneAccentBrush}" Margin="3,0,0,0" />
+					<TextBlock Grid.Column="3" Text="{Binding WinnedGames}" />
+					<Border Grid.Column="0" Grid.ColumnSpan="4" Background="Gray" Opacity="0.35" Visibility="{Binding IsEliminated, Converter={StaticResource BoolToVisibility}}"/>
+				</Grid>
+			</Border>
+		</DataTemplate>
+		<templateSelectors:GamePlayerSelector x:Key="GamePlayerSelector">
+			<templateSelectors:GamePlayerSelector.NormalPlayerTemplate>
+				<DataTemplate d:DataContext="{d:DesignInstance local:Player}">
+					<Border Background="Black" Style="{StaticResource PlayerBorderStyle}">
+						<ContentPresenter ContentTemplate="{StaticResource PlayerTemplate}"/>
+					</Border>
+				</DataTemplate>
+			</templateSelectors:GamePlayerSelector.NormalPlayerTemplate>
+			<templateSelectors:GamePlayerSelector.RedPlayerTemplate>
+				<DataTemplate d:DataContext="{d:DesignInstance local:Player}">
+					<Border Background="PaleVioletRed" Style="{StaticResource PlayerBorderStyle}">
+						<ContentPresenter ContentTemplate="{StaticResource PlayerTemplate}"/>
+					</Border>
+				</DataTemplate>
+			</templateSelectors:GamePlayerSelector.RedPlayerTemplate>
+			<templateSelectors:GamePlayerSelector.GreenPlayerTemplate>
+				<DataTemplate d:DataContext="{d:DesignInstance local:Player}">
+					<Border Background="DarkSeaGreen" Style="{StaticResource PlayerBorderStyle}">
+						<ContentPresenter ContentTemplate="{StaticResource PlayerTemplate}"/>
+					</Border>
+				</DataTemplate>
+			</templateSelectors:GamePlayerSelector.GreenPlayerTemplate>
+			<templateSelectors:GamePlayerSelector.BluePlayerTemplate>
+				<DataTemplate d:DataContext="{d:DesignInstance local:Player}">
+					<Border Background="CornflowerBlue" Style="{StaticResource PlayerBorderStyle}">
+						<ContentPresenter ContentTemplate="{StaticResource PlayerTemplate}"/>
+					</Border>
+				</DataTemplate>
+			</templateSelectors:GamePlayerSelector.BluePlayerTemplate>
+			<templateSelectors:GamePlayerSelector.EliminatedPlayerTemplate>
+				<DataTemplate d:DataContext="{d:DesignInstance local:Player}">
+					<Border Background="DarkGray" Style="{StaticResource PlayerBorderStyle}">
+						<ContentPresenter ContentTemplate="{StaticResource PlayerTemplate}"/>
+					</Border>
+				</DataTemplate>
+			</templateSelectors:GamePlayerSelector.EliminatedPlayerTemplate>
+		</templateSelectors:GamePlayerSelector>
+	</FrameworkElement.Resources>
+	
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		
+		<TextBlock Grid.Row="1" TextWrapping="Wrap" FontSize="25" Text="{Binding Game.CurrentQuestion.QuestionString}"/>
+		<StackPanel Orientation="Vertical" Grid.Row="2">
+			<RadioButton Background="CornflowerBlue" Checked="VoteButton_OnChecked" Tag="0" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=A, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+
+					<TextBlock Grid.Column="0" Text="{Binding Game.CurrentQuestion.ResponseA.Answer}" TextWrapping="Wrap"/>
+					<TextBlock Grid.Column="0" Text="{Binding Game.CurrentQuestion.ResponseA.Answer}" TextWrapping="Wrap" Foreground="{ThemeResource PhoneAccentBrush}" Visibility="{Binding Game.CurrentQuestion.ResponseA.Majority, Converter={StaticResource BoolToVisibility}}"/>
+					<TextBlock Grid.Column="1" Text="{Binding Game.CurrentQuestion.ResponseA.Vote}" TextWrapping="Wrap" Margin="10,0,4,0" VerticalAlignment="Center" Visibility="{Binding Game.CurrentQuestion.ShowVote, Converter={StaticResource BoolToVisibility}}"/>
+				</Grid>
+			</RadioButton>
+			<RadioButton Background="PaleVioletRed" Checked="VoteButton_OnChecked" Tag="1" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=B, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+
+					<TextBlock Grid.Column="0" Text="{Binding Game.CurrentQuestion.ResponseB.Answer}" TextWrapping="Wrap"/>
+					<TextBlock Grid.Column="0" Text="{Binding Game.CurrentQuestion.ResponseB.Answer}" TextWrapping="Wrap" Foreground="{ThemeResource PhoneAccentBrush}" Visibility="{Binding Game.CurrentQuestion.ResponseB.Majority, Converter={StaticResource BoolToVisibility}}"/>
+					<TextBlock Grid.Column="1" Text="{Binding Game.CurrentQuestion.ResponseB.Vote}" TextWrapping="Wrap" Margin="10,0,4,0" VerticalAlignment="Center" Visibility="{Binding Game.CurrentQuestion.ShowVote, Converter={StaticResource BoolToVisibility}}"/>
+				</Grid>
+			</RadioButton>
+			<RadioButton Background="DarkSeaGreen" Checked="VoteButton_OnChecked" Tag="2" GroupName="Answer" IsChecked="{Binding Game.Player.SelectedAnswer, Converter={StaticResource AnswerConverter}, ConverterParameter=C, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsEnabled="{Binding Game.Player.CanVote}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+
+					<TextBlock Grid.Column="0" Text="{Binding Game.CurrentQuestion.ResponseC.Answer}" TextWrapping="Wrap"/>
+					<TextBlock Grid.Column="0" Text="{Binding Game.CurrentQuestion.ResponseC.Answer}" TextWrapping="Wrap" Foreground="{ThemeResource PhoneAccentBrush}" Visibility="{Binding Game.CurrentQuestion.ResponseC.Majority, Converter={StaticResource BoolToVisibility}}"/>
+					<TextBlock Grid.Column="1" Text="{Binding Game.CurrentQuestion.ResponseC.Vote}" TextWrapping="Wrap" Margin="10,0,4,0" VerticalAlignment="Center" Visibility="{Binding Game.CurrentQuestion.ShowVote, Converter={StaticResource BoolToVisibility}}"/>
+				</Grid>
+			</RadioButton>
+		</StackPanel>
+		<Grid Grid.Row="3">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+
+			<!--<StackPanel Orientation="Horizontal" Grid.Column="0">
+				<TextBlock Text="{Binding Game.Timer}" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+				<TextBlock Text=" secs" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+			</StackPanel>-->
+			<!--<StackPanel Grid.Column="2" Orientation="Horizontal">
+				<TextBlock Text="{Binding Game.AlivePlayers}" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+				<TextBlock Text="/" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+				<TextBlock Text="{Binding Game.Players.Count}" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+				<TextBlock Text=" joueurs en vie" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+			</StackPanel>-->
+			<TextBlock Grid.Column="0" FontSize="20">
+				<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding Game.Timer}" FontSize="25"/>
+				<Run Text="secs"/>
+			</TextBlock>
+			<TextBlock Grid.Column="3" FontSize="20">
+				<Run Text="{Binding Game.AlivePlayers}" FontSize="25"/>
+				<Run Text="/"/>
+				<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding Game.Players.Count}" FontSize="25"/>
+			</TextBlock>
+			<TextBlock Grid.Column="4" Text="{Binding Game.Player.StringLife}" FontSize="20" Foreground="{ThemeResource PhoneAccentBrush}"/>
+		</Grid>
+		<ScrollViewer Grid.Row="4" VerticalScrollMode="Enabled" VerticalContentAlignment="Top">
+			<ItemsControl VerticalAlignment="Top" ItemTemplate="{StaticResource PlayerTemplate}" ItemsSource="{Binding Game.Players}">
+			<!--<ItemsControl VerticalAlignment="Top"  ItemTemplateSelector="{StaticResource GamePlayerSelector}" ItemsSource="{Binding Game.Players}">-->
+					<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<local:UniformGrid Columns="3"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+		</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+</Page>

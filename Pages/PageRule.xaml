@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="VoxPopuli.Pages.PageRule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VoxPopuli.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:converters="using:VoxPopuli.Converters"
+    mc:Ignorable="d"
+	FontSize="18"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance local:PageRule}">
+	<Page.Resources>
+		<converters:BoolToVisibility x:Key="BoolToVisibility"/>
+		<Style x:Key="TextblockStyle" TargetType="TextBlock">
+			<Setter Property="Margin" Value="0, 5"/>
+			<Setter Property="TextWrapping" Value="WrapWholeWords"/>
+		</Style>
+	</Page.Resources>
+
+	<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+		<TextBlock Style="{StaticResource TextblockStyle}" Text="Ceci est une partie de débug, aucun point ne sera ajouté à vos stats !" FontStyle="Italic" Visibility="{Binding GameMode.IsDebug, Converter={StaticResource BoolToVisibility}}"/>
+		<TextBlock FontWeight="Bold" Style="{StaticResource TextblockStyle}">
+			<Run Text="Explications du jeu (gamemode '" />
+			<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding GameMode.Name}" />
+			<Run Text="'):" />
+		</TextBlock>
+		<TextBlock Style="{StaticResource TextblockStyle}" Text="Vous devez répondre comme la majorité pour ne pas perdre. Aucune réponse proposée n'est correcte."/>
+		<TextBlock Style="{StaticResource TextblockStyle}">
+			<Run Text="Vous commencez avec"/>
+			<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding GameMode.NbLiveStart}"/>
+			<Run Text="vie."/>
+		</TextBlock>
+		<TextBlock Style="{StaticResource TextblockStyle}">
+			<Run Text="Les"/>
+			<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding GameMode.NbSafeQuestions}"/>
+			<Run Text="premières questions sont sans risque, mais vous gagnez"/>
+			<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding GameMode.GainLifeWhenSafe}"/>
+			<Run Text="vie si vous répondez comme la majorité."/>
+		</TextBlock>
+
+		<TextBlock Style="{StaticResource TextblockStyle}" Visibility="{Binding DeathMsg1, Converter={StaticResource BoolToVisibility}}">
+			<Run Text="Les perdants peuvent voter après leur mort !" FontWeight="Bold"/>
+			<LineBreak/>
+			<Run Text="Victoire lorsqu'il ne reste plus qu'un joueur en vie."/>
+		</TextBlock>
+		<TextBlock Style="{StaticResource TextblockStyle}" Visibility="{Binding DeathMsg2, Converter={StaticResource BoolToVisibility}}">
+			<Run Text="Les perdants peuvent voter après leur mort lorsqu'il ne reste plus que DEUX joueurs en vie !" FontWeight="Bold"/>
+			<LineBreak/>
+			<Run Text="Victoire lorsqu'il ne reste plus qu'un joueur en vie."/>
+		</TextBlock>
+		<TextBlock Style="{StaticResource TextblockStyle}" Visibility="{Binding DeathMsg3, Converter={StaticResource BoolToVisibility}}">
+			<Run Text="Sur ce mode de jeu, il n'est plus possible de répondre après être mort."/>
+			<LineBreak/>
+			<Run Text="Victoire lorsqu'il ne reste plus que deux joueurs en vie."/>
+		</TextBlock>
+	</StackPanel>
+</Page>

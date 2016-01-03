@@ -1,0 +1,106 @@
+﻿<Page
+    x:Class="VoxPopuli.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:converters="using:VoxPopuli.Converters"
+    xmlns:pages="using:VoxPopuli.Pages"
+    mc:Ignorable="d"
+	FontSize="12"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance pages:HomePage}">
+	<Page.Resources>
+		<converters:BoolToStringConverter x:Key="JoinBoolToStringConverter" False="Connecter" True="Rejoindre"/>
+	</Page.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<Grid Grid.Row="0" HorizontalAlignment="Stretch">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="85"/>
+				<ColumnDefinition Width="125"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			
+			<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Partie en Attente" FontSize="25"/>
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="GameMode" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			<TextBlock Grid.Row="1" Grid.Column="1" Text="Players" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			<TextBlock Grid.Row="1" Grid.Column="2" Text="Connecter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+		</Grid>
+		<ScrollViewer Grid.Row="1"  HorizontalAlignment="Stretch" VerticalScrollMode="Enabled" HorizontalContentAlignment="Stretch">
+			<ItemsControl ItemsSource="{Binding Waitings}" HorizontalContentAlignment="Stretch" FontSize="15">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate >
+						<Grid HorizontalAlignment="Stretch">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="85"/>
+								<ColumnDefinition Width="125"/>
+							</Grid.ColumnDefinitions>
+
+							<TextBlock Grid.Column="0" Text="{Binding GameMode.Name}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							<TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+								<Run Text="{Binding MinPlayers}"/>
+								<Run Text="/"/>
+								<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding Players.Count}"/>
+								<Run Text="/"/>
+								<Run Text="{Binding MaxPlayers}"/>
+							</TextBlock>
+							<Button Grid.Column="2" Content="{Binding ID}" Tag="{Binding}" Click="Connect_OnClick" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+		<Grid Grid.Row="2" HorizontalAlignment="Stretch">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="85"/>
+				<ColumnDefinition Width="125"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+
+			<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Partie en Cours" FontSize="25"/>
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="GameMode" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			<TextBlock Grid.Row="1" Grid.Column="1" Text="Players" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+			<TextBlock Grid.Row="1" Grid.Column="2" Text="Rejoindre" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+		</Grid>
+		<ScrollViewer Grid.Row="3" HorizontalAlignment="Stretch" VerticalScrollMode="Enabled" HorizontalContentAlignment="Stretch">
+			<ItemsControl ItemsSource="{Binding Playings}" HorizontalContentAlignment="Stretch" FontSize="15">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate >
+						<Grid HorizontalAlignment="Stretch">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="85"/>
+								<ColumnDefinition Width="125"/>
+							</Grid.ColumnDefinitions>
+
+							<TextBlock Grid.Column="0" Text="{Binding GameMode.Name}" Margin="10,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							<TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+								<Run Foreground="{ThemeResource PhoneAccentBrush}" Text="{Binding AlivePlayers}"/>
+								<Run Text="/"/>
+								<Run Text="{Binding Players.Count}"/>
+							</TextBlock>
+							<Button Grid.Column="2" Content="{Binding ID}" IsEnabled="{Binding CanJoin}" Tag="{Binding}" Click="Connect_OnClick" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+</Page>

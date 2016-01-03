@@ -1,0 +1,21 @@
+﻿{
+  "action": "roomData",
+  "roomData": {
+    "status": "waiting",
+    "players": {
+      "player1": {
+        "user_id": "",
+        "screen_name": "",
+        "avatar_url": ""
+      },
+      "player2": {
+        "user_id": "",
+        "screen_name": "",
+        "avatar_url": ""
+      },
+      "nbPlayers": 0,
+      "minPlayers": 0,
+      "maxPlayers": 0
+    }
+  }
+}
