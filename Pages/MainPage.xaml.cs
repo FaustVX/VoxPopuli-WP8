@@ -31,6 +31,9 @@ namespace VoxPopuli.Pages
 				GamePage = string.IsNullOrWhiteSpace(roomId) ? null : new GamePage();
 			};
 
+			if (!Options.IsConnected)
+				OptionPage = new LoginPage();
+
 	        DataContext = this;
 	        this.InitializeComponent();
 
