@@ -38,27 +38,19 @@ namespace VoxPopuli
 			//var webRequest = HttpWebRequest.CreateHttp("https://vox-populi.richie.fr/login");
 			//var cookie = webRequest.CookieContainer = new CookieContainer();
 
-	        try
-	        {
-		        this.InitializeComponent();
-		        this.Suspending += this.OnSuspending;
-	        }
-	        catch (Exception e)
-			{
-				NewMethod(e);
-			}
+	        this.InitializeComponent();
+            this.Suspending += this.OnSuspending;
+			UnhandledException += async (sender, e)
+				=> await new MessageDialog(e.Message, "Error").ShowAsync();
 		}
 
-		private static async void NewMethod(Exception e)
-			=> await new MessageDialog(e.Message, "Erreur").ShowAsync();
-
-	    /// <summary>
-		/// Invoked when the application is launched normally by the end user.  Other entry points
-		/// will be used when the application is launched to open a specific file, to display
-		/// search results, and so forth.
-		/// </summary>
-		/// <param name="e">Details about the launch request and process.</param>
-		protected override void OnLaunched(LaunchActivatedEventArgs e)
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used when the application is launched to open a specific file, to display
+        /// search results, and so forth.
+        /// </summary>
+        /// <param name="e">Details about the launch request and process.</param>
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)

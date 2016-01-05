@@ -33,7 +33,8 @@ namespace VoxPopuli.Pages
 		UpdateTimer,
 		UpdateBeforeDelete,
 		DeleteRoom,
-		EndGame
+		EndGame,
+		AlertSpect
 	}
 
 	/// <summary>
@@ -210,6 +211,9 @@ namespace VoxPopuli.Pages
 					catch
 					{ }
 					Options.Default.RoomID = null;
+					break;
+				case "alertSpect":
+					await new MessageDialog(json.GetNamedString("message"), "Non Connecté").ShowAsync();
 					break;
 				default:
 					break;
