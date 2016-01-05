@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,17 +38,27 @@ namespace VoxPopuli
 			//var webRequest = HttpWebRequest.CreateHttp("https://vox-populi.richie.fr/login");
 			//var cookie = webRequest.CookieContainer = new CookieContainer();
 
-	        this.InitializeComponent();
-            this.Suspending += this.OnSuspending;
-        }
+	        try
+	        {
+		        this.InitializeComponent();
+		        this.Suspending += this.OnSuspending;
+	        }
+	        catch (Exception e)
+			{
+				NewMethod(e);
+			}
+		}
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used when the application is launched to open a specific file, to display
-        /// search results, and so forth.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+		private static async void NewMethod(Exception e)
+			=> await new MessageDialog(e.Message, "Erreur").ShowAsync();
+
+	    /// <summary>
+		/// Invoked when the application is launched normally by the end user.  Other entry points
+		/// will be used when the application is launched to open a specific file, to display
+		/// search results, and so forth.
+		/// </summary>
+		/// <param name="e">Details about the launch request and process.</param>
+		protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)

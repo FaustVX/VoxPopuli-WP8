@@ -25,6 +25,7 @@ namespace VoxPopuli.Pages
 	public sealed partial class LoginPage : Page, IOptionPage
 	{
 		public event Action DoBack;
+		public event Action Connected;
 
 		public LoginPage()
 		{
@@ -47,7 +48,8 @@ namespace VoxPopuli.Pages
 				Options.Default.UserSession = jUser.GetNamedString("user_session");
 				Options.Default.IsConnected = true;
 				Options.Default.RoomID = null;
-				await new MessageDialog("Appuyez sur 'Back' ", "Connecté").ShowAsync();
+				(webView.Parent as LoginPage)?.Connected?.Invoke();
+				//await new MessageDialog("Appuyez sur 'Back' ", "Connecté").ShowAsync();
 			}
 		}
 

@@ -32,7 +32,11 @@ namespace VoxPopuli.Pages
 			};
 
 			if (!Options.IsConnected)
-				OptionPage = new LoginPage();
+			{
+				var loginPage = new LoginPage();
+				loginPage.Connected += () => OptionPage = null;
+				OptionPage = loginPage;
+			}
 
 	        DataContext = this;
 	        this.InitializeComponent();
@@ -124,7 +128,9 @@ namespace VoxPopuli.Pages
 
 	    private void Login_OnClick(object sender, RoutedEventArgs e)
 	    {
-			OptionPage = new LoginPage();
+			var loginPage = new LoginPage();
+		    loginPage.Connected += () => OptionPage = null;
+			OptionPage = loginPage;
 	    }
 
 	    private void Logout_OnClick(object sender, RoutedEventArgs e)
