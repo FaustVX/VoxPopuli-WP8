@@ -175,15 +175,9 @@ namespace VoxPopuli.Pages
 						break;
 					}
 				case "alertDisconnect":
-					{
-						Options.Default.RoomID = null;
-						try
-						{
-							await new MessageDialog("Vous êtes connecté depuis un autre navigateur", "Déconnexion").ShowAsync();
-						}
-						catch
-						{ }
-						//CloseSocket();
+				{
+					Options.Default.RoomID = null;
+						await new MessageDialog("Vous êtes connecté depuis un autre navigateur", "Déconnexion").ShowAsync();
 						break;
 					}
 				case "updateTimer":
@@ -193,23 +187,13 @@ namespace VoxPopuli.Pages
 					Game.Timer = (int)json.GetNamedNumber("val");
 					break;
 				case "deleteRoom":
-					try
-					{
-						await new MessageDialog("La partie vient de se terminer", "Partie Terminée").ShowAsync();
-					}
-					catch
-					{ }
+					await new MessageDialog("La partie vient de se terminer", "Partie Terminée").ShowAsync();
 					Options.Default.RoomID = null;
 					//CloseSocket();
 					break;
 				case "endGame":
 					var winners = json.GetNamedArray("winners");
-					try
-					{
-						await new MessageDialog($"Les gagnants sont: {string.Join(", ", winners.Select(name => name.GetString()))}", "Gagnants").ShowAsync();
-					}
-					catch
-					{ }
+					await new MessageDialog($"Les gagnants sont: {string.Join(", ", winners.Select(name => name.GetString()))}", "Gagnants").ShowAsync();
 					Options.Default.RoomID = null;
 					break;
 				case "alertSpect":

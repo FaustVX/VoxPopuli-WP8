@@ -51,7 +51,6 @@ namespace VoxPopuli.Pages
 		    private set
 		    {
 			    if (Equals(value, _gamePage)) return;
-			    GamePage?.CloseSocket();
 			    _gamePage = value;
 			    OnPropertyChanged();
 				OnPropertyChanged(nameof(ShowGamePage));
@@ -115,8 +114,8 @@ namespace VoxPopuli.Pages
 			    if (ShowOptionPage)
 				    OptionPage = null;
 			    else if (ShowGamePage)
-				    Options.Default.RoomID = null;
-			    else
+					Options.Default.RoomID = null;
+				else
 				    Application.Current.Exit();
 		    };
 

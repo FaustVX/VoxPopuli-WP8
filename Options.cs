@@ -67,10 +67,15 @@ namespace VoxPopuli
 			{
 				if (value == _roomID)
 					return;
+				if (value != null && _roomID != null)
+				{
+					_roomID = null;
+					OnRoomChanged(RoomID);
+				}
 				_roomID = value;
+				OnRoomChanged(RoomID);
 				OnPropertyChanged();
 				OnPropertyChanged(nameof(GameHeader));
-				OnRoomChanged(RoomID);
 			}
 		}
 
@@ -86,10 +91,9 @@ namespace VoxPopuli
 
 		public void RegenerateGameSocket()
 		{
-			GameSocket?.Off();
+			//GameSocket?.Off();
 			GameSocket?.Close();
-			GameSocket = IO.Socket(SocketURL, new IO.Options() {ForceNew = true, QueryString = GameHeader});
-			GameSocket.On(Socket.EVENT_CONNECT, obj => { });
+			GameSocket = string.IsNullOrWhiteSpace(RoomID) ? null : (IO.Socket(SocketURL, new IO.Options() {ForceNew = true, QueryString = GameHeader}));
 		}
 
 		public void RegenerateGameSocket(string roomID)
